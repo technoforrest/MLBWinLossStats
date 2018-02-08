@@ -25,11 +25,10 @@ void setup() {
   size(800, 500);
   background(255);
   getData();
-  shapeDesign();
 }
 void draw() {
+  shapeDesign();
   keyPressed();
- 
 }
 /**
  draws the graph based on the input from the teams class
@@ -37,12 +36,11 @@ void draw() {
 void shapeDesign() {
   noFill();
   for (int i = 0; i < rowCount; i++) {
-    newTeam = teamList.get(i);
     PShape lines = createShape();
-    stroke(newTeam.getColor(), 0, 0);
+    stroke(teamList.get(i).getColor(), 0, 0);
     lines.beginShape();
     for (int j = 1; j < columnCount-1; j++) {
-      lines.vertex(j * ((float)width/(float)columnCount), ((newTeam.getWinPercent().get(j)) * (height/100)) );
+      lines.vertex(j * ((float)width/(float)columnCount), ((teamList.get(i).getWinPercent().get(j)) * (height/100)) );
     }
     lines.endShape();
     shape(lines);
@@ -69,14 +67,16 @@ void keyPressed() {
       } else if(rowInt > rowCount - 1){
         rowInt = 0;
         teamList.get(rowInt).setColor(1);
-      }
+      }else {
+      teamList.get(rowInt).setColor(0);
+    }
     } else if (keyCode == DOWN) {
-      if (rowInt > rowCount - 1) {
-        rowInt = 0;
+      if (rowInt < 0) {
+        rowInt = rowCount;
         teamList.get(rowInt).setColor(1);
-      } if(rowInt < rowCount - 1){
+      } else if(rowInt > 0){
         teamList.get(rowInt).setColor(1);
-        rowInt ++;
+        rowInt --;
       }
     } else {
       teamList.get(rowInt).setColor(0);
