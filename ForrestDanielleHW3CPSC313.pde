@@ -25,10 +25,11 @@ void setup() {
   size(800, 500);
   background(255);
   getData();
+  shapeDesign();
 }
 void draw() {
-  //keyPressed();
-  shapeDesign();
+  keyPressed();
+ 
 }
 /**
  draws the graph based on the input from the teams class
@@ -37,7 +38,6 @@ void shapeDesign() {
   noFill();
   for (int i = 0; i < rowCount; i++) {
     newTeam = teamList.get(i);
-    keyPressed(newTeam);
     PShape lines = createShape();
     stroke(newTeam.getColor(), 0, 0);
     lines.beginShape();
@@ -60,26 +60,26 @@ void getData() {
   }
 }
 
-void keyPressed(Team team) {
+void keyPressed() {
   if (key == CODED) {
     if (keyCode == UP) {
-      if (rowInt < 0) {
-        rowInt = rowCount;
-        team.setColor(1);
-      } else {
-        rowInt--;
-        team.setColor(1);
+      if(rowInt < rowCount - 1){
+        rowInt ++;
+        teamList.get(rowInt).setColor(1);
+      } else if(rowInt > rowCount - 1){
+        rowInt = 0;
+        teamList.get(rowInt).setColor(1);
       }
     } else if (keyCode == DOWN) {
-      if (rowInt > rowCount) {
+      if (rowInt > rowCount - 1) {
         rowInt = 0;
-        team.setColor(1);
-      } else {
-        team.setColor(1);
+        teamList.get(rowInt).setColor(1);
+      } if(rowInt < rowCount - 1){
+        teamList.get(rowInt).setColor(1);
         rowInt ++;
       }
     } else {
-      team.setColor(0);
+      teamList.get(rowInt).setColor(0);
     }
   }
 }
