@@ -3,6 +3,9 @@ class Team {
   TableRow losses;
   int columns;
   int colorFlag;
+  int strokeWFlag;
+  int colorInt;
+  int strokeWInt;
   /**
    Default constructor
    **/
@@ -45,11 +48,22 @@ class Team {
 
   void setColor(int flag) {
     colorFlag = flag;
+    if (colorFlag == 1) {
+      colorInt = 255;
+    } else colorInt = 0;
     getColor();
   }
   int getColor() {
-    if (colorFlag == 1) {
-      return 255;
-    } else return 0;
+    return colorInt;
+  }
+  void setStrokeWeight(int flag) {
+    
+    if (flag == 1) {
+      strokeWInt = 5;
+    } else strokeWInt = 1;
+    getStrokeWeight();
+  }
+  int getStrokeWeight(){
+    return strokeWInt;
   }
 }

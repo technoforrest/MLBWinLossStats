@@ -24,20 +24,27 @@ void setup() {
   columnCount = table1.getColumnCount();
   size(800, 500);
   background(255);
+  strokeWeight(1);
+  textSize(36);
   getData();
 }
 void draw() {
+  background(255);
+  //strokeWeight(1);
   shapeDesign();
-  keyPressed();
+  text(teamList.get(rowInt).getName(), 600, 100);
+  println(rowInt);
 }
 /**
  draws the graph based on the input from the teams class
  **/
 void shapeDesign() {
   noFill();
+  
   for (int i = 0; i < rowCount; i++) {
     PShape lines = createShape();
     stroke(teamList.get(i).getColor(), 0, 0);
+    strokeWeight(teamList.get(i).getStrokeWeight());
     lines.beginShape();
     for (int j = 1; j < columnCount-1; j++) {
       lines.vertex(j * ((float)width/(float)columnCount), ((teamList.get(i).getWinPercent().get(j)) * (height/100)) );
@@ -45,6 +52,7 @@ void shapeDesign() {
     lines.endShape();
     shape(lines);
   }
+  
 }
 /**
  extracts data from tables and creates an arrayList of team objects
@@ -61,25 +69,49 @@ void getData() {
 void keyPressed() {
   if (key == CODED) {
     if (keyCode == UP) {
-      if(rowInt < rowCount - 1){
-        rowInt ++;
+      if (rowInt < rowCount - 1) {
         teamList.get(rowInt).setColor(1);
-      } else if(rowInt > rowCount - 1){
+        teamList.get(rowInt).setStrokeWeight(1);
+        fill(0, 0, 255);
+        
+        println(teamList.get(rowInt).getName());
+        if (rowInt <= 0) {
+          teamList.get(rowCount - 1).setColor(0);
+          teamList.get(rowCount - 1).setStrokeWeight(0);
+          rowInt ++;
+          println("RowInt = " + rowInt);
+        } else {
+          teamList.get(rowInt - 1).setColor(0);
+          teamList.get(rowInt - 1).setStrokeWeight(0);
+          rowInt ++;
+          println("inside else" + "RowInt = " + rowInt);
+        }
+        
+      } /*else if (rowInt > rowCount - 1) {
         rowInt = 0;
         teamList.get(rowInt).setColor(1);
-      }else {
-      teamList.get(rowInt).setColor(0);
+        teamList.get(rowInt).setStrokeWeight(1);
+      } else {
+        teamList.get(rowInt).setColor(0);
+        teamList.get(rowInt).setStrokeWeight(0);
+      }*/
     }
-    } else if (keyCode == DOWN) {
-      if (rowInt < 0) {
-        rowInt = rowCount;
-        teamList.get(rowInt).setColor(1);
-      } else if(rowInt > 0){
-        teamList.get(rowInt).setColor(1);
-        rowInt --;
-      }
+  } else if (keyCode == DOWN) {
+    if (rowInt < 0) {
+      rowInt = rowCount;
+      teamList.get(0).setColor(0);
+      teamList.get(0).setStrokeWeight(0);
+      teamList.get(rowInt).setColor(1);
+      teamList.get(rowInt).setStrokeWeight(1);
+    } else if (rowInt > 0) {
+      teamList.get(rowInt).setColor(1);
+      teamList.get(rowInt).setStrokeWeight(1);
+      teamList.get(rowInt + 1).setColor(0);
+      teamList.get(rowInt + 1).setStrokeWeight(0);
+      rowInt --;
     } else {
       teamList.get(rowInt).setColor(0);
+      teamList.get(rowInt).setStrokeWeight(0);
     }
   }
 }
