@@ -27,6 +27,7 @@ class Team {
     strokeWInt = 1;
     
   }
+ 
   /**
    @return returns name of team
    **/

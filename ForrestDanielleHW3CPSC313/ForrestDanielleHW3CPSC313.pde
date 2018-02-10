@@ -13,10 +13,11 @@ int columnCount;
 ArrayList<Team> teamList;
 Team newTeam;
 int rowInt;
-
+Boolean onStart;
 
 void setup() {
   rowInt = 0;
+  onStart = true;
   teamList = new ArrayList<Team>();
   table1 = loadTable("wins.csv");
   table2 = loadTable("losses.csv");
@@ -27,20 +28,26 @@ void setup() {
   strokeWeight(1);
   textSize(36);
   getData();
+  teamList.get(0).setColor(1);
+  teamList.get(0).setStrokeWeight(1);
 }
 void draw() {
+  println("inside draw" + onStart);
   background(255, 255, 255);
-  //strokeWeight(1);
   shapeDesign();
+  if (rowInt == 0 && onStart) {
+    onStart = true;
+  } else
+    onStart = false;
+
+  fill(0, 0, 255);
   text(teamList.get(rowInt).getName(), 600, 100);
-  println(rowInt);
 }
 /**
  draws the graph based on the input from the teams class
  **/
 void shapeDesign() {
   noFill();
-  
   for (int i = 0; i < rowCount; i++) {
     PShape lines = createShape();
     stroke(teamList.get(i).getColor(), 0, 0);
@@ -52,7 +59,6 @@ void shapeDesign() {
     lines.endShape();
     shape(lines);
   }
-  
 }
 /**
  extracts data from tables and creates an arrayList of team objects
@@ -69,49 +75,65 @@ void getData() {
 void keyPressed() {
   if (key == CODED) {
     if (keyCode == UP) {
-      if (rowInt < rowCount - 1) {
-        teamList.get(rowInt).setColor(1);
-        teamList.get(rowInt).setStrokeWeight(1);
-        fill(0, 0, 255);
-        
-        println(teamList.get(rowInt).getName());
-        if (rowInt <= 0) {
-          teamList.get(rowCount - 1).setColor(0);
-          teamList.get(rowCount - 1).setStrokeWeight(0);
-          rowInt ++;
-          println("RowInt = " + rowInt);
+      if ( rowInt < rowCount - 1 ) {
+        if (rowInt <= 0 && onStart) {
+          teamList.get(0).setColor(1);
+          teamList.get(0).setStrokeWeight(1);
+          rowInt++;
+        } else if (rowInt <= 0 && !onStart) {
+          println("RowInt is less than or equal to zero" + rowInt);
+          teamList.get(0).setColor(0);
+          teamList.get(0).setStrokeWeight(0);
+          teamList.get(rowInt).setColor(1);
+          teamList.get(rowInt).setStrokeWeight(1);
+          rowInt++;
         } else {
+          teamList.get(rowInt).setColor(1);
+          teamList.get(rowInt).setStrokeWeight(1);
           teamList.get(rowInt - 1).setColor(0);
           teamList.get(rowInt - 1).setStrokeWeight(0);
-          rowInt ++;
           println("inside else" + "RowInt = " + rowInt);
+          rowInt ++;
         }
-        
-      } /*else if (rowInt > rowCount - 1) {
+      } else if (rowInt >= rowCount - 1) {
         rowInt = 0;
         teamList.get(rowInt).setColor(1);
         teamList.get(rowInt).setStrokeWeight(1);
-      } else {
-        teamList.get(rowInt).setColor(0);
-        teamList.get(rowInt).setStrokeWeight(0);
-      }*/
-    }
-  } else if (keyCode == DOWN) {
-    if (rowInt < 0) {
-      rowInt = rowCount;
-      teamList.get(0).setColor(0);
-      teamList.get(0).setStrokeWeight(0);
-      teamList.get(rowInt).setColor(1);
-      teamList.get(rowInt).setStrokeWeight(1);
-    } else if (rowInt > 0) {
-      teamList.get(rowInt).setColor(1);
-      teamList.get(rowInt).setStrokeWeight(1);
-      teamList.get(rowInt + 1).setColor(0);
-      teamList.get(rowInt + 1).setStrokeWeight(0);
-      rowInt --;
-    } else {
-      teamList.get(rowInt).setColor(0);
-      teamList.get(rowInt).setStrokeWeight(0);
+        teamList.get(rowCount - 2).setColor(0);
+        teamList.get(rowCount - 2).setStrokeWeight(0);
+      }
+    } 
+    if (keyCode == DOWN) {
+      if (rowInt < rowCount - 1) {
+        if (rowInt <= 0 && onStart) {
+          rowInt = rowCount;
+          teamList.get(0).setColor(0);
+          teamList.get(0).setStrokeWeight(0);
+          teamList.get(rowInt).setColor(1);
+          teamList.get(rowInt).setStrokeWeight(1);
+          rowInt--;
+        } else if (rowInt <= 0 && !onStart) {
+          rowInt = rowCount;
+          teamList.get(0).setColor(0);
+          teamList.get(0).setStrokeWeight(0);
+          teamList.get(rowInt).setColor(1);
+          teamList.get(rowInt).setStrokeWeight(1);
+          rowInt--;
+        } else {
+          teamList.get(rowInt).setColor(1);
+          teamList.get(rowInt).setStrokeWeight(1);
+          teamList.get(rowInt + 1).setColor(0);
+          teamList.get(rowInt + 1).setStrokeWeight(0);
+          println("inside else" + "RowInt = " + rowInt);
+          rowInt --;
+        }
+      } else if (rowInt >= rowCount - 1) {
+        teamList.get(rowInt).setColor(1);
+        teamList.get(rowInt).setStrokeWeight(1);
+        teamList.get(rowInt + 1).setColor(0);
+        teamList.get(rowInt + 1).setStrokeWeight(0);
+        rowInt --;
+      } 
     }
   }
 }
