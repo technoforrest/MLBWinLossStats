@@ -23,13 +23,13 @@ void setup() {
   rowCount = table1.getRowCount();
   columnCount = table1.getColumnCount();
   size(800, 500);
-  background(255);
+  background(255, 255, 255);
   strokeWeight(1);
   textSize(36);
   getData();
 }
 void draw() {
-  background(255);
+  background(255, 255, 255);
   //strokeWeight(1);
   shapeDesign();
   text(teamList.get(rowInt).getName(), 600, 100);
@@ -46,8 +46,8 @@ void shapeDesign() {
     stroke(teamList.get(i).getColor(), 0, 0);
     strokeWeight(teamList.get(i).getStrokeWeight());
     lines.beginShape();
-    for (int j = 1; j < columnCount-1; j++) {
-      lines.vertex(j * ((float)width/(float)columnCount), ((teamList.get(i).getWinPercent().get(j)) * (height/100)) );
+    for (int j = 0; j < columnCount-1; j++) {
+      lines.vertex(j * (((float)width - 40)/(float)columnCount) + 20, (((teamList.get(i).getWinPercent().get(j) ) * (((float)height - 40)/100)) + 20) );
     }
     lines.endShape();
     shape(lines);

@@ -10,6 +10,7 @@ class Team {
    Default constructor
    **/
   Team() {
+    strokeWInt = 1;
   }
   /**
    Parameterized constructor
@@ -23,6 +24,8 @@ class Team {
     columns = columnCount;
     //print(" wins = " + wins.getInt(15) + " ");
     losses = newLoss;
+    strokeWInt = 1;
+    
   }
   /**
    @return returns name of team
@@ -59,7 +62,7 @@ class Team {
   void setStrokeWeight(int flag) {
     
     if (flag == 1) {
-      strokeWInt = 5;
+      strokeWInt = 10;
     } else strokeWInt = 1;
     getStrokeWeight();
   }
