@@ -4,13 +4,18 @@ class Team {
   int columns;
   int colorFlag;
   int strokeWFlag;
-  int colorInt;
+  int colorR;
+  int colorG;
+  int colorB;
   int strokeWInt;
   /**
    Default constructor
    **/
   Team() {
     strokeWInt = 1;
+    colorR = 0;
+    colorG = 0;
+    colorB = 0;
   }
   /**
    Parameterized constructor
@@ -25,9 +30,11 @@ class Team {
     //print(" wins = " + wins.getInt(15) + " ");
     losses = newLoss;
     strokeWInt = 1;
-    
+    colorR = 0;
+    colorG = 0;
+    colorB = 0;
   }
- 
+
   /**
    @return returns name of team
    **/
@@ -49,25 +56,62 @@ class Team {
     }
     return percentArr;
   }
-
-  void setColor(int flag) {
-    colorFlag = flag;
-    if (colorFlag == 1) {
-      colorInt = 255;
-    } else colorInt = 0;
-    getColor();
+  /**
+   sets the value of Red
+   **/
+  void setColorR(int R) {
+    colorR = R;
   }
-  int getColor() {
-    return colorInt;
+  /**
+   sets the value of Green
+   **/
+  void setColorG(int G) {
+    colorG = G;
   }
-  void setStrokeWeight(int flag) {
-    
-    if (flag == 1) {
-      strokeWInt = 10;
-    } else strokeWInt = 1;
-    getStrokeWeight();
+  /**
+   sets the value of Blue
+   **/
+  void setColorB(int B) {
+    colorB = B;
   }
-  int getStrokeWeight(){
+  /**
+   gets the value of Red
+   **/
+  int getColorR() {
+    return colorR;
+  }
+  /**
+   gets the value of Green
+   **/
+  int getColorG() {
+    return colorG;
+  }
+  /**
+   gets the value of Blue
+   **/
+  int getColorB() {
+    return colorB;
+  }
+  /**
+   gets the value of the strokeWeight
+   **/
+  int getStrokeWeight() {
     return strokeWInt;
+  }
+  /**
+   determines if the team is selected and sets the strokeweight
+   @param is a boolean from setup or draw 
+   @returns true if the team is selected or false if it is not selected
+   **/
+  Boolean isSelected(Boolean redLine) {
+    if (redLine) {
+      strokeWInt = 10;
+
+      return true;
+    } else {
+      strokeWInt = 1;
+
+      return false;
+    }
   }
 }
